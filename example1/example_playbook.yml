@@ -1,0 +1,22 @@
+---
+
+- name: example play
+  hosts: all
+  remote_user: root
+
+  tasks:
+
+  - name: sleep for 5 seconds
+    command: /bin/sleep 5
+    async: 45
+    poll: 5
+
+  - name: install httpd
+    yum: pkg=httpd state=latest
+
+  - name: httpd start
+    service: name=httpd state=running
+
+  handlers:
+    - name: restart apache
+      service: name=httpd state=restarted
